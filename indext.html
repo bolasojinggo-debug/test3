@@ -1,0 +1,507 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Misi Wira Bahasa - BMMB1084</title>
+    <!-- Google Fonts yang ceria -->
+    <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&family=Nunito:wght@700;800;900&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --rainbow-gradient: linear-gradient(135deg, #ff9a9e 0%, #fecfef 35%, #a1c4fd 70%, #c2e9fb 100%);
+            --card-shadow: 0 15px 35px rgba(0, 0, 0, 0.2), inset 0 3px 6px rgba(255, 255, 255, 0.9);
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Fredoka', 'Nunito', sans-serif;
+            user-select: none;
+        }
+
+        body {
+            background: var(--rainbow-gradient);
+            background-size: 400% 400%;
+            animation: gradientBG 12s ease infinite;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 10px;
+            overflow-x: hidden;
+        }
+
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
+        }
+
+        /* Container Nisbah Aspek Landscape 16:9 yang Meriah */
+        .app-container {
+            width: 100%;
+            max-width: 960px;
+            aspect-ratio: 16 / 9;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(12px);
+            border-radius: 32px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25), inset 0 3px 8px rgba(255, 255, 255, 1);
+            border: 6px solid #ffeb3b;
+            position: relative;
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* Frame Halaman */
+        .page {
+            display: none;
+            flex-direction: column;
+            width: 100%;
+            height: 100%;
+            padding: 24px 32px;
+            position: absolute;
+            top: 0;
+            left: 0;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out;
+            justify-content: space-between;
+            align-items: center;
+            text-align: center;
+            pointer-events: none; /* Elakkan gangguan klik */
+        }
+
+        .page.active {
+            display: flex;
+            opacity: 1;
+            z-index: 10;
+            pointer-events: auto; /* Benarkan klik pada halaman aktif sahaja */
+        }
+
+        /* Elemen Grafik Background Beranimasi Meriah */
+        .bg-deco {
+            position: absolute;
+            font-size: 2.5rem;
+            opacity: 0.35;
+            pointer-events: none;
+            animation: bounceFloat 5s infinite ease-in-out;
+            z-index: 1;
+        }
+        .deco-1 { top: 8%; left: 4%; animation-delay: 0s; color: #ff4081; }
+        .deco-2 { bottom: 8%; right: 5%; animation-delay: 1.5s; color: #00e676; }
+        .deco-3 { top: 12%; right: 8%; animation-delay: 3s; color: #ffea00; }
+        .deco-4 { bottom: 12%; left: 6%; animation-delay: 2s; color: #00b0ff; }
+
+        @keyframes bounceFloat {
+            0%, 100% { transform: translateY(0px) rotate(0deg) scale(1); }
+            50% { transform: translateY(-15px) rotate(12deg) scale(1.1); }
+        }
+
+        /* Tipografi Berwarna-warni */
+        h1 {
+            font-size: 2.5rem;
+            background: linear-gradient(45deg, #d81b60, #8e24aa, #1e88e5);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            text-shadow: 3px 3px 0px rgba(255, 235, 59, 0.8);
+            margin-bottom: 4px;
+            letter-spacing: 1px;
+        }
+
+        h2 {
+            font-size: 1.7rem;
+            color: #0d47a1;
+            margin-bottom: 8px;
+            text-shadow: 2px 2px 0px #fff;
+        }
+
+        p {
+            font-size: 1.05rem;
+            color: #263238;
+            line-height: 1.4;
+            font-weight: 700;
+        }
+
+        .slogan {
+            font-size: 1.2rem;
+            color: #ff1744;
+            font-weight: 800;
+            background: linear-gradient(135deg, #fff9c4, #ffe082);
+            padding: 6px 20px;
+            border-radius: 50px;
+            box-shadow: 0 4px 12px rgba(255, 193, 7, 0.3);
+            border: 2px dashed #ffa000;
+        }
+
+        /* Kad Kandungan Eksklusif */
+        .card-container {
+            background: linear-gradient(145deg, #ffffff, #f1f8e9);
+            border-radius: 22px;
+            padding: 14px 24px;
+            width: 92%;
+            max-height: 60%;
+            overflow-y: auto;
+            box-shadow: var(--card-shadow);
+            border: 4px solid #81c784;
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Watak 4 Murid Comel */
+        .character-avatar-group {
+            display: flex;
+            gap: 12px;
+            justify-content: center;
+            margin: 4px 0;
+        }
+
+        .avatar-card {
+            background: linear-gradient(145deg, #ffffff, #e3f2fd);
+            border-radius: 16px;
+            padding: 6px;
+            width: 85px;
+            box-shadow: 0 6px 12px rgba(0,0,0,0.1);
+            border: 3px solid #29b6f6;
+            text-align: center;
+            font-size: 0.7rem;
+            font-weight: 800;
+            color: #01579b;
+        }
+
+        .avatar-img-box {
+            width: 100%;
+            height: 45px;
+            border-radius: 10px;
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.6rem;
+            margin-bottom: 3px;
+            box-shadow: inset 0 2px 4px rgba(0,0,0,0.1);
+        }
+
+        .av-1 { background: #e1f5fe; }
+        .av-2 { background: #fce4ec; }
+        .av-3 { background: #e8f5e9; }
+        .av-4 { background: #fffde7; }
+
+        /* Rekabentuk Butang 3D Super Ceria */
+        .btn-3d {
+            font-size: 1.1rem;
+            font-weight: 900;
+            padding: 10px 28px;
+            border: none;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.15s ease;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            color: #fff;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.4);
+            box-shadow: 0 6px 0px rgba(0, 0, 0, 0.25), 0 10px 15px rgba(0, 0, 0, 0.2);
+            z-index: 20;
+        }
+
+        .btn-blue {
+            background: linear-gradient(to bottom, #00b0ff, #0091ea);
+            border-bottom: 5px solid #01579b;
+        }
+        .btn-blue:hover:not(:disabled) { background: linear-gradient(to bottom, #40c4ff, #0091ea); }
+
+        .btn-yellow {
+            background: linear-gradient(to bottom, #ffea00, #ffab00);
+            border-bottom: 5px solid #ff6f00;
+            color: #3e2723;
+            text-shadow: none;
+        }
+        .btn-yellow:hover:not(:disabled) { background: linear-gradient(to bottom, #ffff00, #ffab00); }
+
+        .btn-pink {
+            background: linear-gradient(to bottom, #ff4081, #f50057);
+            border-bottom: 5px solid #880e4f;
+        }
+        .btn-pink:hover:not(:disabled) { background: linear-gradient(to bottom, #ff669a, #f50057); }
+
+        .btn-green {
+            background: linear-gradient(to bottom, #00e676, #00c853);
+            border-bottom: 5px solid #1b5e20;
+        }
+        .btn-green:hover:not(:disabled) { background: linear-gradient(to bottom, #33eb91, #00c853); }
+
+        .btn-3d:active:not(:disabled) {
+            transform: translateY(4px);
+            box-shadow: 0 2px 0px rgba(0, 0, 0, 0.25);
+            border-bottom-width: 1px;
+        }
+
+        /* Keadaan Butang Dikunci (Disabled) */
+        .btn-3d:disabled, .btn-3d.locked {
+            opacity: 0.45 !important;
+            cursor: not-allowed !important;
+            transform: none !important;
+            box-shadow: 0 4px 0px rgba(0, 0, 0, 0.1) !important;
+            filter: grayscale(40%);
+        }
+
+        .btn-group {
+            display: flex;
+            gap: 14px;
+            justify-content: center;
+            width: 100%;
+        }
+
+        /* Pilihan Jawapan Kuiz Berwarna */
+        .quiz-options {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 10px;
+            width: 100%;
+            margin-top: 6px;
+        }
+
+        .quiz-opt-btn {
+            background: linear-gradient(145deg, #ffffff, #f5f5f5);
+            border: 3px solid #ab47bc;
+            border-radius: 16px;
+            padding: 10px;
+            font-size: 1rem;
+            font-weight: 800;
+            color: #4a148c;
+            cursor: pointer;
+            transition: all 0.2s;
+            box-shadow: 0 5px 0 #d1c4e9;
+        }
+
+        .quiz-opt-btn:hover:not(:disabled) {
+            background: #ede7f6;
+            border-color: #7b1fa2;
+            transform: scale(1.02);
+        }
+
+        .quiz-opt-btn.correct {
+            background: linear-gradient(145deg, #b9f6ca, #69f0ae) !important;
+            border-color: #00c853 !important;
+            color: #004d40 !important;
+            box-shadow: 0 3px 0 #00e676 !important;
+        }
+
+        .quiz-opt-btn.wrong {
+            background: linear-gradient(145deg, #ff8a80, #ff5252) !important;
+            border-color: #d50000 !important;
+            color: #ffebee !important;
+            box-shadow: 0 3px 0 #ff1744 !important;
+        }
+
+        /* Header Navigasi Atas */
+        .header-nav {
+            position: absolute;
+            top: 12px;
+            right: 20px;
+            font-weight: 900;
+            background: #ffffff;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            color: #ff6f00;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            border: 2px solid #ffca28;
+            z-index: 20;
+        }
+
+        .lock-warning {
+            font-size: 0.8rem;
+            color: #d81b60;
+            font-weight: 800;
+            margin-top: 4px;
+            background: #ffebee;
+            padding: 2px 10px;
+            border-radius: 10px;
+        }
+
+        /* Responsif Telefon Bimbit */
+        @media (max-width: 640px) {
+            .app-container {
+                aspect-ratio: auto;
+                min-height: 95vh;
+            }
+            h1 { font-size: 1.5rem; }
+            h2 { font-size: 1.15rem; }
+            p { font-size: 0.9rem; }
+            .quiz-options { grid-template-columns: 1fr; }
+            .btn-3d { font-size: 0.9rem; padding: 8px 16px; }
+            .character-avatar-group { gap: 6px; }
+            .avatar-card { width: 64px; font-size: 0.6rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="app-container">
+        <!-- Dekorasi 3D Background Meriah -->
+        <div class="bg-deco deco-1">🎈</div>
+        <div class="bg-deco deco-2">⭐</div>
+        <div class="bg-deco deco-3">🎒</div>
+        <div class="bg-deco deco-4">🎨</div>
+
+        <!-- HALAMAN 1 — LAMAN UTAMA -->
+        <div class="page active" id="page-1">
+            <div class="header-nav">HALAMAN 1 / 15</div>
+            <h1>MISI WIRA BAHASA</h1>
+            <div class="slogan">✨ Ejaan Betul, Kata Tepat, Ayat Hebat! ✨</div>
+            
+            <div class="character-avatar-group">
+                <div class="avatar-card">
+                    <div class="avatar-img-box av-1">👦🏻</div>
+                    <span>Lelaki (Tali Leher)</span>
+                </div>
+                <div class="avatar-card">
+                    <div class="avatar-img-box av-2">👧🏻</div>
+                    <span>Perempuan (Rambut Bahu)</span>
+                </div>
+                <div class="avatar-card">
+                    <div class="avatar-img-box av-3">🧕🏻</div>
+                    <span>Perempuan (Tudung)</span>
+                </div>
+                <div class="avatar-card">
+                    <div class="avatar-img-box av-4">👓</div>
+                    <span>Lelaki (Kaca Mata)</span>
+                </div>
+            </div>
+
+            <p>Jom sertai 4 Wira Bahasa paling ceria menguasai Asas Tatabahasa Bahasa Melayu!</p>
+
+            <button class="btn-3d btn-yellow" onclick="goToPage(2)">🚀 MULA MISI SEKARANG</button>
+        </div>
+
+        <!-- HALAMAN 2 — PENGENALAN MISI -->
+        <div class="page" id="page-2">
+            <div class="header-nav">HALAMAN 2 / 15</div>
+            <h2>🌟 Pengenalan Misi</h2>
+            <div class="card-container">
+                <p>Selamat datang Wira Muda! Dalam pengembaraan penuh warna ini, anda akan meneroka 3 modul utama:</p>
+                <div style="text-align: left; display: inline-block;">
+                    <p>🔹 <strong>Sistem Ejaan:</strong> Menguasai ejaan kata sendi & kata ganda.</p>
+                    <p>🔹 <strong>Pembentukan Kata:</strong> Kata tunggal, terbitan, majmuk & ganda.</p>
+                    <p>🔹 <strong>Pembinaan Ayat:</strong> Membina ayat gramatis (Subjek + Predikat).</p>
+                </div>
+            </div>
+            <button class="btn-3d btn-blue" onclick="goToPage(3)">🌟 MULA BELAJAR</button>
+        </div>
+
+        <!-- HALAMAN 3 — OBJEKTIF PEMBELAJARAN -->
+        <div class="page" id="page-3">
+            <div class="header-nav">HALAMAN 3 / 15</div>
+            <h2>🎯 Objektif Pembelajaran</h2>
+            <div class="card-container">
+                <p>Di akhir pengembaraan ini, anda pasti hebat dalam:</p>
+                <p>✅ 1. Mengenal pasti dan membetulkan kesalahan ejaan Bahasa Melayu.</p>
+                <p>✅ 2. Membezakan jenis pembentukan kata dengan tepat.</p>
+                <p>✅ 3. Menyusun dan membina ayat gramatis dengan yakin.</p>
+            </div>
+            <button class="btn-3d btn-green" onclick="goToPage(4)">🎯 TERUSKAN MISI</button>
+        </div>
+
+        <!-- HALAMAN 4 — NOTA SISTEM EJAAN -->
+        <div class="page" id="page-4">
+            <div class="header-nav">HALAMAN 4 / 15</div>
+            <h2>📘 Nota: Sistem Ejaan</h2>
+            <div class="card-container" style="text-align: left;">
+                <p>📌 <strong>Kata Sendi Nama 'di':</strong></p>
+                <p> • Dijarakkan untuk tempat/arah. <em>Contoh: di sekolah, di dalam.</em></p>
+                <p> • Dirapatkan sebagai imbuhan. <em>Contoh: ditulis, dimakan.</em></p>
+                <br>
+                <p>📌 <strong>Kata Majmuk & Ganda:</strong></p>
+                <p> • Kata Majmuk dijarakkan: <em>alat tulis, terima kasih.</em></p>
+                <p> • Kata Ganda ada tanda sempang (-): <em>buku-buku, kanak-kanak.</em></p>
+            </div>
+            <button class="btn-3d btn-pink" onclick="goToPage(5)">📘 JOM BERLATIH</button>
+        </div>
+
+        <!-- HALAMAN 5 — LATIHAN EJAAN -->
+        <div class="page" id="page-5">
+            <div class="header-nav">HALAMAN 5 / 15</div>
+            <h2>✏️ Latihan Ejaan</h2>
+            <div class="card-container">
+                <p>Pilih ejaan yang betul bagi ayat di bawah:</p>
+                <p style="color: #0288d1; font-weight: bold;">"Murid-murid sedang belajar _____ perpustakaan."</p>
+                <div class="quiz-options">
+                    <button class="quiz-opt-btn" onclick="checkAnswer(this, true, 5, 'btn-p5')">di perpustakaan</button>
+                    <button class="quiz-opt-btn" onclick="checkAnswer(this, false, 5, 'btn-p5')">di-perpustakaan</button>
+                    <button class="quiz-opt-btn" onclick="checkAnswer(this, false, 5, 'btn-p5')">diperpustakaan</button>
+                    <button class="quiz-opt-btn" onclick="checkAnswer(this, false, 5, 'btn-p5')">DIPERPUSTAKAAN</button>
+                </div>
+                <div id="feedback-p5" style="font-weight: 800; margin-top: 6px;"></div>
+                <div id="warn-p5" class="lock-warning">⚠️ Pilih jawapan di atas untuk membuka butang!</div>
+            </div>
+            <button id="btn-p5" class="btn-3d btn-yellow locked" onclick="goToPage(6)" disabled>✏️ SEMAK LATIHAN</button>
+        </div>
+
+        <!-- HALAMAN 6 — PENGENALAN PERMAINAN -->
+        <div class="page" id="page-6">
+            <div class="header-nav">HALAMAN 6 / 15</div>
+            <h2>🎮 Cabaran Pembentukan Kata</h2>
+            <div class="card-container">
+                <p>Hebat! Tahniah kerana melepasi modul ejaan dengan cemerlang.</p>
+                <p>Seterusnya, mari terokai dunia <strong>Pembentukan Kata</strong> yang penuh warna-warni!</p>
+            </div>
+            <button class="btn-3d btn-blue" onclick="goToPage(7)">🎮 MULA PERMAINAN</button>
+        </div>
+
+        <!-- HALAMAN 7 — NOTA PEMBENTUKAN KATA -->
+        <div class="page" id="page-7">
+            <div class="header-nav">HALAMAN 7 / 15</div>
+            <h2>🔤 Nota: Pembentukan Kata</h2>
+            <div class="card-container" style="text-align: left;">
+                <p>1. <strong>Kata Tunggal:</strong> Tanpa imbuhan. (Contoh: <em>meja, kerusi</em>)</p>
+                <p>2. <strong>Kata Terbitan:</strong> Menerima imbuhan. (Contoh: <em>membaca</em>)</p>
+                <p>3. <strong>Kata Majmuk:</strong> Dua kata gabungan. (Contoh: <em>alat tulis</em>)</p>
+                <p>4. <strong>Kata Ganda:</strong> Perkataan diulang. (Contoh: <em>buku-buku</em>)</p>
+            </div>
+            <button class="btn-3d btn-green" onclick="goToPage(8)">🔤 MULA PADAN KATA</button>
+        </div>
+
+        <!-- HALAMAN 8 — PERMAINAN PADAN KATA -->
+        <div class="page" id="page-8">
+            <div class="header-nav">HALAMAN 8 / 15</div>
+            <h2>🧩 Permainan Padan Kata</h2>
+            <div class="card-container">
+                <p>Apakah jenis pembentukan kata bagi perkataan: <br><span style="font-size: 1.3rem; color: #e91e63; font-weight:900;">"membaca"</span>?</p>
+                <div class="quiz-options">
+                    <button class="quiz-opt-btn" onclick="checkAnswer(this, false, 8, 'btn-p8')">Kata Tunggal</button>
+                    <button class="quiz-opt-btn" onclick="checkAnswer(this, true, 8, 'btn-p8')">Kata Terbitan</button>
+                    <button class="quiz-opt-btn" onclick="checkAnswer(this, false, 8, 'btn-p8')">Kata Majmuk</button>
+                    <button class="quiz-opt-btn" onclick="checkAnswer(this, false, 8, 'btn-p8')">Kata Ganda</button>
+                </div>
+                <div id="feedback-p8" style="font-weight: 800; margin-top: 6px;"></div>
+                <div id="warn-p8" class="lock-warning">⚠️ Pilih jawapan di atas untuk meneruskan!</div>
+            </div>
+            <div class="btn-group">
+                <button class="btn-3d btn-pink" onclick="goToPage(7)">🧩 KEMBALI</button>
+                <button id="btn-p8" class="btn-3d btn-blue locked" onclick="goToPage(9)" disabled>➡️ SETERUSNYA</button>
+            </div>
+        </div>
+
+        <!-- HALAMAN 9 — NOTA PEMBINAAN AYAT -->
+        <div class="page" id="page-9">
+            <div class="header-nav">HALAMAN 9 / 15</div>
+            <h2>📝 Nota: Pembinaan Ayat</h2>
+            <div class="card-container" style="text-align: left;">
+                <p>Ayat gramatis terdiri daripada <strong>SUBJEK</strong> dan <strong>PREDIKAT</strong>.</p>
+                <br>
+                <p>🔹 <strong>Subjek:</strong> Siapa/Apa yang diceritakan. (Contoh: <em>Ali</em>)</p>
+                <p>🔹 <strong>Predikat:</strong> Keterangan subjek. (Contoh: <em>membaca buku di perpustakaan.</em>)</p>
+            </div>
+            <button class="btn-3d btn-yellow" onclick="goToPage(10)">📝 JOM BAIKI AYAT</button>
+        </div>
+
+        <!-- HALAMAN 10 — PERMAINAN BAIKI AYAT -->
+        <div class="page
